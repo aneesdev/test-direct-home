@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Direct Home Components Test</title>
+
+  <script type="module">
+    (async () => {
+      try {
+        await import(
+          "https://home.devdksa.com/direct-web-components.es.js"
+        );
+        //set localstorage
+        loadLocalStorage('_locale', 'ar');
+        loadLocalStorage('_currency', 'SAR');
+        //load components
+        loadWebComponents("wc-direct-header");
+        loadWebComponents("wc-direct-footer");
+      } catch (error) {
+        document.querySelector(".main-app")?.removeAttribute("hidden");
+        console.error("Failed to load module:", error);
+      }
+    })();
+  </script>
+
+  <style>
+    wc-direct-header,
+    wc-direct-footer {
+      z-index: auto;
+    }
+  </style>
+
+  <link href="./output.css" rel="stylesheet">
+
+  <style>
+    html,
+    body {
+      font-family: 'DirectFont', 'Inter';
+    }
+  </style>
+</head>
+
+<body>
+  <wc-direct-header hidden></wc-direct-header>
+
+  <main id="app" class="main-app" hidden>
+    <div>
+      <!-- Header Section -->
+      <header class="relative bg-orange-700 text-white pa-12 w-full">
+        <div class="absolute inset-0 bg-cover bg-center opacity-50"
+          style="background-image: url('https://www.nerdwallet.com/tachyon/2021/04/THY-7378W_PR_img01_PR-0413.jpg?resize=1920%2C1152');">
+        </div>
+        <div class="relative z-10">
+          <div class="flex items-center mb-4 justify-between">
+            <h1 class="text-1xl lg:text-3xl font-bold">أحجز الخطوط التركية بأقل سعر عبر دايركت</h1>
+            <img src="https://1000logos.net/wp-content/uploads/2020/04/Turkish_Airlines_logo.png"
+              alt="Turkish Airlines Logo" class="h-12 mx-4 bg-white rounded pa-1">
+          </div>
+          <p class="text-lg">تعد الخطوط الجوية التركية واحدة من أكبر شركات الطيران انتشارا على مستوى العالم.. أحجز الان
+            عبر دايركت الخطوط التركية بسهولة للحصول على أفضل سعر</p>
+        </div>
+      </header>
+
+      <!-- Main Content -->
+      <div class="max-w-7xl mx-auto p-6">
+        <div class="lg:flex mt-6">
+          <div>
+            <!-- About Section -->
+            <section class="bg-white p-6 rounded-lg shadow-md flex-1">
+              <h2 class="text-2xl font-semibold text-gray-800 mb-4">نبذة عن الخطوط الجوية التركية</h2>
+              <p class="text-gray-700 leading-loose">
+                الخطوط التركية هي شركة طيران وطنية تتخذ مطار أتاتورك الدولي مركزاً رئيسياً لانطلاق رحلاتها ويقع مقرها
+                الرئيسي في مدينة إسطنبول وهي واحدة من شركات الطيران الكبرى في أوروبا والعالم حيث تسيير رحلاتها إلى أكثر
+                من
+                300 وجهه داخل وخارج تركيا كما تمتلك أسطول من الطائرات الحديثة المجهزة لرفاهية وأمان المسافرين وفق أعلى
+                معايير السلامة الدولية وتحرص دائماً على تقديم أفضل خدمة لعملائها
+                تمتع بتجربة سفر ممتعة وفريدة من نوعها مع دايركت عبر الخطوط الجوية التركية
+
+              </p>
+            </section>
+
+            <!-- Features Section -->
+            <section class="bg-white p-6 mt-6 rounded-lg shadow-md">
+              <h2 class="text-2xl font-semibold text-gray-800 mb-4">مميزات الخطوط الجوية التركية</h2>
+              <ul class="list-disc list-inside text-gray-700 leading-loose">
+                <li>صنفت ضمن أفضل 10 شركات طيران في العالم</li>
+                <li>حصلت على جائزة أفضل شركة طيران في أوروبا لست سنوات متتالية</li>
+                <li>تمتلك أسطول ضخم من الطائرات الحديثة به كافة وسائل الأمان والرفاهية</li>
+                <li>تقديم أفضل الخدمات على متن طائراتها مع توفير المأكولات والمشروبات المجانية</li>
+              </ul>
+            </section>
+
+            <!-- Destinations Section -->
+            <section class="bg-white p-6 mt-6 rounded-lg shadow-md">
+              <h2 class="text-2xl font-semibold text-gray-800 mb-4">وجهات الخطوط الجوية التركية</h2>
+              <p class="text-gray-700 leading-loose">
+                يمكنك السفر عبر الطيران التركي لأكثر من 300 وجهة موزعة على 120 دولة حول العالم ومن أكثر الوجهات طلباً
+                عليها:
+              </p>
+              <p class="text-gray-700 leading-loose">حجز رحلات الخطوط الجوية التركية من وإلى
+                الرياض/جدة/القاهرة/باريس/مالطا/طرابلس/ميونخ/لندن/برشلونة/مدريد/روما/ميلانو</p>
+            </section>
+
+            <!-- Baggage Policy Section -->
+            <section class="bg-white p-6 mt-6 rounded-lg shadow-md">
+              <h2 class="text-2xl font-semibold text-gray-800 mb-4">سياسة الأمتعة داخل الطيران التركي</h2>
+              <p class="text-gray-700 leading-loose">
+                من المهم أن تكون على علم بحد الأمتعة المسموح به على متن الخطوط التركية وتختلف سياسة الأمتعة حسب نوع درجة
+                الحجز
+                والوجهة:
+              </p>
+              <h3 class="text-xl font-bold text-gray-800 mt-4">سياسة الأمتعة للدرجة السياحية</h3>
+              <ul class="list-disc list-inside text-gray-700 leading-loose">
+                <li>يحق لكل مسافر حمل أمتعة لا يتجاوز وزنها 20 كجم</li>
+                <li>يسمح لكل مسافر بحمل حقيبة يدوية لا يتجاوز وزنها 8 كجم</li>
+              </ul>
+              <h3 class="text-xl font-bold text-gray-800 mt-4">سياسة الأمتعة لدرجة رجال الأعمال</h3>
+              <ul class="list-disc list-inside text-gray-700 leading-loose">
+                <li>يحق لكل مسافر حمل أمتعة لا يتجاوز وزنها 30 كجم</li>
+                <li>يسمح لكل مسافر بحمل حقيبتي يد لا يتجاوز وزن الواحدة 8 كجم</li>
+              </ul>
+            </section>
+
+            <!-- Benefits Section -->
+            <section class="bg-white p-6 mt-6 rounded-lg shadow-md">
+              <h2 class="text-2xl font-semibold text-gray-800 mb-4">مميزات حجز رحلات الخطوط التركية عبر دايركت</h2>
+              <ul class="list-disc list-inside text-gray-700 leading-loose">
+                <li>نمتلك مستشارين خبراء في مجال الطيران</li>
+                <li>نقدم لك خدمات احترافية مع خصومات مذهلة</li>
+                <li>حجز رحلات الخطوط الجوية بسهولة وفي أسرع وقت</li>
+                <li>متواجدين دائماً بجانبك لمساعدتك وتتبع حجزك</li>
+                <li>خدمة العملاء في انتظار اتصالك على مدار الساعة</li>
+              </ul>
+            </section>
+
+
+            <section class="bg-white p-6 mt-6 rounded-lg shadow-md">
+              <h2 class="text-2xl font-semibold text-gray-800 mb-4">عن طيران التركية</h2>
+
+
+              <div class="relative overflow-x-auto">
+                <table class="w-full text-sm text-right rtl:text-right text-gray-500 dark:text-gray-400">
+                  <tbody>
+                    <tr class="bg-white border dark:bg-gray-800 dark:border-gray-700">
+                      <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        الرمز الخاص بإتحاد النقل الجوي الدولي (IATA)
+
+                      </th>
+                      <td class="px-6 py-4">
+                        TK
+                      </td>
+                    </tr>
+                    <tr class="bg-white border dark:bg-gray-800 dark:border-gray-700">
+                      <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        الرمز الخاص بمنظمة الطيران المدني الدولي (ICAO)
+
+                      </th>
+                      <td class="px-6 py-4">
+                        THY
+                      </td>
+                    </tr>
+                    <tr class="bg-white border dark:bg-gray-800 dark:border-gray-700">
+                      <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        مقر طيران التركية
+
+                      </th>
+                      <td class="px-6 py-4">
+                        اسطنبول، التركية
+                      </td>
+                    </tr>
+                    <tr class="bg-white border dark:bg-gray-800 dark:border-gray-700">
+                      <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        المطار الرئيسي للشركة
+
+                      </th>
+                      <td class="px-6 py-4">
+                        مطار إسطنبول الدولي
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+            </section>
+
+            <!-- Contact Section -->
+            <section class="bg-white p-6 mt-6 rounded-lg shadow-md">
+              <h2 class="text-2xl font-semibold text-gray-800 mb-4">تواصل معنا</h2>
+              <p class="text-gray-700 leading-loose">الرياض / جدة / بريدة / الخبر</p>
+              <p class="text-gray-700 leading-loose">راسلنا واتساب</p>
+            </section>
+          </div>
+
+          <div>
+            <!-- Quick Info Section -->
+            <aside class="p-6 rounded-lg shadow-md w-full lg:w-80">
+              <div class="text-center mb-6">
+                <img src="https://1000logos.net/wp-content/uploads/2020/04/Turkish_Airlines_logo.png"
+                  alt="Turkish Airlines Logo" class="h-16">
+              </div>
+              <div class="text-gray-700 leading-loose">
+                <p class="mb-2">
+                  <strong>رقم خدمة العملاء (داخل السعودية):</strong><br>
+                  +90 212 463 63 63
+                </p>
+                <p class="mb-2">
+                  <strong>كود أياتا:</strong><br>
+                  TK
+                </p>
+                <p class="mb-4">
+                  <strong>موقع إلكتروني:</strong><br>
+                  <a href="https://www.turkishairlines.com" target="_blank" class="text-blue-600 underline">
+                    www.turkishairlines.com
+                  </a>
+                </p>
+              </div>
+            </aside>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <wc-direct-footer hidden></wc-direct-footer>
+</body>
+
+<script>
+  function loadLocalStorage(key, value) {
+    const item = localStorage.getItem(key);
+    if (!item) {
+      localStorage.setItem(key, value); //set default value first
+    }
+  }
+  async function loadWebComponents(tag) {
+    try {
+      const component = await getComponent(tag);
+      if (tag === 'wc-direct-header') {
+        loadEventListeners();
+      }
+      updateShadowDom(component, "https://home.devdksa.com/style.css", localStorage.getItem("_locale"));
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  }
+  function getComponent(tag) {
+    return new Promise((resolve, reject) => {
+      const timeout = 5000; // 5 seconds timeout
+      const interval = 100; // Check every 100ms
+      let elapsedTime = 0;
+      const moduleLoaded = setInterval(() => {
+        const component = document.querySelector(tag);
+        if (component && component.shadowRoot) {
+          clearInterval(moduleLoaded);
+          resolve(component);
+        } else if ((elapsedTime += interval) >= timeout) {
+          clearInterval(moduleLoaded);
+          reject(`${tag} not found.`);
+        }
+      }, interval);
+    });
+  }
+  function loadEventListeners() {
+    window.addEventListener("wc-state-locale", (event) => {
+      localStorage.setItem('_locale', event.detail.value);
+      ['wc-direct-header', 'wc-direct-footer'].forEach((tag) => {
+        const component = document.querySelector(tag);
+        component.setAttribute("lang", event.detail.value);
+        component.setAttribute("dir", event.detail.value === "ar" ? "rtl" : "ltr");
+      });
+    });
+
+    window.addEventListener("wc-state-currency", (event) => {
+      localStorage.setItem('_currency', event.detail.value);
+    });
+  }
+  async function updateShadowDom(component, url, locale) {
+    // update component styles
+    const styleLink = document.createElement("link");
+    styleLink.setAttribute("rel", "stylesheet");
+    styleLink.setAttribute("href", url);
+    component.shadowRoot.appendChild(styleLink);
+    styleLink.onload = () => {
+      component.removeAttribute("hidden");
+      document.querySelector(".main-app")?.removeAttribute("hidden");
+    };
+    component.setAttribute("lang", locale);
+    component.setAttribute("dir", locale === "ar" ? "rtl" : "ltr");
+  }
+</script>
+
+</html>
