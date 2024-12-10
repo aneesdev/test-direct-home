@@ -12,9 +12,6 @@
         await import(
           "https://home.devdksa.com/direct-web-components.es.js"
         );
-        //set localstorage
-        loadLocalStorage('_locale', 'ar');
-        loadLocalStorage('_currency', 'SAR');
         //load components
         loadWebComponents("wc-direct-header");
         loadWebComponents("wc-direct-footer");
@@ -235,19 +232,13 @@
 </body>
 
 <script>
-  function loadLocalStorage(key, value) {
-    const item = localStorage.getItem(key);
-    if (!item) {
-      localStorage.setItem(key, value); //set default value first
-    }
-  }
   async function loadWebComponents(tag) {
     try {
       const component = await getComponent(tag);
       if (tag === 'wc-direct-header') {
         loadEventListeners();
       }
-      updateShadowDom(component, "https://home.devdksa.com/style.css", localStorage.getItem("_locale"));
+      updateShadowDom(component, "https://home.devdksa.com/style.css");
     } catch (error) {
       console.error("Error:", error);
     }
@@ -271,30 +262,24 @@
   }
   function loadEventListeners() {
     window.addEventListener("wc-state-locale", (event) => {
-      localStorage.setItem('_locale', event.detail.value);
-      ['wc-direct-header', 'wc-direct-footer'].forEach((tag) => {
-        const component = document.querySelector(tag);
-        component.setAttribute("lang", event.detail.value);
-        component.setAttribute("dir", event.detail.value === "ar" ? "rtl" : "ltr");
-      });
+      // do something
     });
 
     window.addEventListener("wc-state-currency", (event) => {
-      localStorage.setItem('_currency', event.detail.value);
+      // do something
     });
   }
-  async function updateShadowDom(component, url, locale) {
+  function updateShadowDom(component, url) {
     // update component styles
     const styleLink = document.createElement("link");
     styleLink.setAttribute("rel", "stylesheet");
     styleLink.setAttribute("href", url);
     component.shadowRoot.appendChild(styleLink);
+    // update component attributes
     styleLink.onload = () => {
       component.removeAttribute("hidden");
       document.querySelector(".main-app")?.removeAttribute("hidden");
     };
-    component.setAttribute("lang", locale);
-    component.setAttribute("dir", locale === "ar" ? "rtl" : "ltr");
   }
 </script>
 
