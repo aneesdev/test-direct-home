@@ -600,6 +600,10 @@ video {
   margin-top: 1.5rem;
 }
 
+.mt-40 {
+  margin-top: 10rem;
+}
+
 .flex {
   display: flex;
 }
@@ -620,6 +624,48 @@ video {
   height: 4rem;
 }
 
+.h-screen {
+  height: 100vh;
+}
+
+.h-2\/6 {
+  height: 33.333333%;
+}
+
+.h-3\/6 {
+  height: 50%;
+}
+
+.h-4\/6 {
+  height: 66.666667%;
+}
+
+.h-5\/6 {
+  height: 83.333333%;
+}
+
+.h-svh {
+  height: 100svh;
+}
+
+.h-lvh {
+  height: 100lvh;
+}
+
+.h-max {
+  height: -moz-max-content;
+  height: max-content;
+}
+
+.h-fit {
+  height: -moz-fit-content;
+  height: fit-content;
+}
+
+.h-64 {
+  height: 16rem;
+}
+
 .w-full {
   width: 100%;
 }
@@ -634,6 +680,10 @@ video {
 
 .border-collapse {
   border-collapse: collapse;
+}
+
+.resize {
+  resize: both;
 }
 
 .list-inside {
@@ -676,6 +726,10 @@ video {
 .bg-white {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
+}
+
+.bg-transparent {
+  background-color: transparent;
 }
 
 .bg-cover {
@@ -797,6 +851,14 @@ video {
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 
+.transition {
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-backdrop-filter;
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-backdrop-filter;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
 @media (min-width: 640px) {
   .sm\:text-sm {
     font-size: 0.875rem;
@@ -804,7 +866,21 @@ video {
   }
 }
 
+@media (min-width: 768px) {
+  .md\:mt-60 {
+    margin-top: 15rem;
+  }
+
+  .md\:mt-80 {
+    margin-top: 20rem;
+  }
+}
+
 @media (min-width: 1024px) {
+  .lg\:mt-40 {
+    margin-top: 10rem;
+  }
+
   .lg\:flex {
     display: flex;
   }

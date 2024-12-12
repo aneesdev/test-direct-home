@@ -36,6 +36,44 @@
     body {
       font-family: 'DirectFont', 'Inter';
     }
+
+    /* @media (min-width: 960px) {
+      .main-header {
+        height: 350px;
+      }
+
+      .flight-search-bar {
+        margin-top: -184px;
+      }
+
+      .main-content {
+        margin-top: 10rem;
+      }
+    }
+
+    @media (max-width: 960px) {
+      .main-header {
+        height: 560px;
+      }
+
+      .flight-search-bar {
+        margin-top: -394px;
+      }
+
+      .main-content {
+        margin-top: 22rem;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .flight-search-bar {
+        margin-top: -391px;
+      }
+
+      .main-header {
+        height: 580px;
+      }
+    } */
   </style>
 </head>
 
@@ -45,7 +83,7 @@
   <main id="app" class="main-app" hidden>
     <div>
       <!-- Header Section -->
-      <header class="relative w-full text-white bg-orange-700 pa-12">
+      <header class="relative w-full text-white bg-orange-700 pa-12 main-header">
         <div class="absolute inset-0 bg-center bg-cover opacity-50"
           style="background-image: url('https://www.nerdwallet.com/tachyon/2021/04/THY-7378W_PR_img01_PR-0413.jpg?resize=1920%2C1152');">
         </div>
@@ -60,8 +98,13 @@
         </div>
       </header>
 
+      <div class="relative">
+        <iframe class="absolute flight-search-bar" src="https://abm-flights.devdksa.com/searchbar" width="100%"
+          height="430px" frameborder="0" allowfullscreen></iframe>
+      </div>
+
       <!-- Main Content -->
-      <div class="p-6 mx-auto max-w-7xl">
+      <div class="p-6 mx-auto max-w-7xl main-content">
         <div class="mt-6 lg:flex">
           <div>
             <!-- About Section -->
@@ -243,6 +286,7 @@
       console.error("Error:", error);
     }
   }
+
   function getComponent(tag) {
     return new Promise((resolve, reject) => {
       const timeout = 5000; // 5 seconds timeout
@@ -260,6 +304,7 @@
       }, interval);
     });
   }
+
   function loadEventListeners() {
     window.addEventListener("wc-state-locale", (event) => {
       // do something
@@ -269,6 +314,7 @@
       // do something
     });
   }
+
   function updateShadowDom(component, url) {
     // update component styles
     const styleLink = document.createElement("link");
@@ -281,6 +327,56 @@
       document.querySelector(".main-app")?.removeAttribute("hidden");
     };
   }
+
+  function adjustHeaderAndSearchBar() {
+    // Select the elements
+    const mainHeader = document.querySelector('.main-header');
+    const flightSearchBar = document.querySelector('.flight-search-bar');
+
+    if (mainHeader && flightSearchBar) {
+      // Get the height of the .flight-search-bar
+      const searchBarHeight = flightSearchBar.offsetHeight;
+
+      // Get the viewport width
+      const viewportWidth = window.innerWidth;
+
+      if (viewportWidth >= 1024) {
+        // Desktop view
+
+        // Adjust .main-header height
+        mainHeader.style.height = `${searchBarHeight - 80}px`;
+
+        // Apply negative margin-top for .flight-search-bar
+        flightSearchBar.style.marginTop = `-${searchBarHeight / 2.5}px`;
+
+      } else if (viewportWidth >= 768) {
+        // Tablet view
+
+        // Adjust .main-header height
+        mainHeader.style.height = `${searchBarHeight + 180}px`;
+
+        // Apply negative margin-top for .flight-search-bar
+        flightSearchBar.style.marginTop = `-${searchBarHeight / 1}px`;
+      } else {
+        // Mobile view
+
+        // Adjust .main-header height
+        mainHeader.style.height = `${searchBarHeight + 230}px`;
+
+        // Apply negative margin-top for .flight-search-bar
+        flightSearchBar.style.marginTop = `-${searchBarHeight / 1}px`;
+      }
+    }
+  }
+
+  // Adjust on page load
+  window.addEventListener('load', adjustHeaderAndSearchBar);
+
+  // Adjust on window resize for responsiveness
+  window.addEventListener('resize', adjustHeaderAndSearchBar);
+
+
+
 </script>
 
 </html>
