@@ -83,25 +83,30 @@
   <main id="app" class="main-app" hidden>
     <div>
       <!-- Header Section -->
-      <header class="relative w-full text-white bg-orange-700 pa-12 main-header">
-        <div class="absolute inset-0 bg-center bg-cover opacity-50"
-          style="background-image: url('https://www.nerdwallet.com/tachyon/2021/04/THY-7378W_PR_img01_PR-0413.jpg?resize=1920%2C1152');">
-        </div>
-        <div class="relative z-10">
-          <div class="flex items-center justify-between mb-4">
-            <h1 class="font-bold text-1xl lg:text-3xl">أحجز الخطوط التركية بأقل سعر عبر دايركت</h1>
-            <img src="https://1000logos.net/wp-content/uploads/2020/04/Turkish_Airlines_logo.png"
-              alt="Turkish Airlines Logo" class="h-12 mx-4 bg-white rounded pa-1">
+      <header class="relative w-full text-white bg-orange-700 main-header">
+        <div class="pt-10 pb-5 pl-10 pr-10 mb-1 ">
+          <div class="absolute inset-0 bg-center bg-cover opacity-50"
+            style="background-image: url('https://www.nerdwallet.com/tachyon/2021/04/THY-7378W_PR_img01_PR-0413.jpg?resize=1920%2C1152');">
           </div>
-          <p class="text-lg">تعد الخطوط الجوية التركية واحدة من أكبر شركات الطيران انتشارا على مستوى العالم.. أحجز الان
-            عبر دايركت الخطوط التركية بسهولة للحصول على أفضل سعر</p>
+          <div class="relative z-10">
+            <div class="flex items-center justify-between mb-4">
+              <h1 class="font-bold text-1xl lg:text-3xl">أحجز الخطوط التركية بأقل سعر عبر دايركت</h1>
+              <img src="https://1000logos.net/wp-content/uploads/2020/04/Turkish_Airlines_logo.png"
+                alt="Turkish Airlines Logo" class="h-12 mx-4 bg-white rounded pa-1">
+            </div>
+            <p class="text-lg">تعد الخطوط الجوية التركية واحدة من أكبر شركات الطيران انتشارا على مستوى العالم.. أحجز
+              الان
+              عبر دايركت الخطوط التركية بسهولة للحصول على أفضل سعر</p>
+          </div>
         </div>
+
+        <!-- <div id="flight-search-bar-iframe" class="relative hidden"> -->
+        <iframe class="relative flight-search-bar" src="https://abm-flights.devdksa.com/searchbar" width="100%"
+          frameborder="0" allowfullscreen></iframe>
+        <!-- </div> -->
+
       </header>
 
-      <div id="flight-search-bar-iframe" class="relative" hidden>
-        <iframe class="absolute flight-search-bar" src="https://abm-flights.devdksa.com/searchbar" width="100%"
-          height="430px" frameborder="0" allowfullscreen></iframe>
-      </div>
 
       <!-- Main Content -->
       <div class="p-6 mx-auto max-w-7xl main-content">
@@ -333,6 +338,8 @@
     const mainHeader = document.querySelector('.main-header');
     const flightSearchBar = document.querySelector('.flight-search-bar');
 
+    flightSearchBar.setAttribute('height', '430px')
+
     if (mainHeader && flightSearchBar) {
       // Get the height of the .flight-search-bar
       const searchBarHeight = flightSearchBar.offsetHeight;
@@ -344,28 +351,21 @@
         // Desktop view
 
         // Adjust .main-header height
-        mainHeader.style.height = `${searchBarHeight - 80}px`;
-
-        // Apply negative margin-top for .flight-search-bar
-        flightSearchBar.style.marginTop = `-${searchBarHeight / 2.5}px`;
+        mainHeader.style.height = `${searchBarHeight - 100}px`;
 
       } else if (viewportWidth >= 768) {
         // Tablet view
 
         // Adjust .main-header height
-        mainHeader.style.height = `${searchBarHeight + 180}px`;
+        mainHeader.style.height = `${searchBarHeight + 150}px`;
 
-        // Apply negative margin-top for .flight-search-bar
-        flightSearchBar.style.marginTop = `-${searchBarHeight / 1}px`;
       } else {
         // Mobile view
 
         // Adjust .main-header height
-        mainHeader.style.height = `${searchBarHeight + 230}px`;
-
-        // Apply negative margin-top for .flight-search-bar
-        flightSearchBar.style.marginTop = `-${searchBarHeight / 1}px`;
+        mainHeader.style.height = `${searchBarHeight + 200}px`;
       }
+
     }
   }
 
@@ -374,13 +374,6 @@
 
   // Adjust on window resize for responsiveness
   window.addEventListener('resize', adjustHeaderAndSearchBar);
-
-  document.addEventListener("DOMContentLoaded", function () {
-    const element = document.getElementById("flight-search-bar-iframe");
-    if (element) {
-      element.removeAttribute("hidden");
-    }
-  });
 
 
 </script>
