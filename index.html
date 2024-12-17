@@ -37,43 +37,68 @@
       font-family: 'DirectFont', 'Inter';
     }
 
-    /* @media (min-width: 960px) {
+    /* Hide scrollbars specifically in Firefox */
+    iframe::-webkit-scrollbar {
+      display: none;
+      /* Chrome, Edge, and Safari */
+    }
+
+    iframe {
+      scrollbar-width: none;
+      /* Firefox */
+    }
+
+    :focus-visible {
+      outline: none;
+    }
+
+    /* Base Header and Iframe Styling */
+    .main-header {
+      visibility: hidden;
+      /* Prevent flickering during load */
+      height: 500px;
+      /* Default height for desktop */
+      opacity: 0;
+      /* Hidden by default */
+      transition: opacity 0.3s ease-in;
+      /* Smooth fade-in */
+    }
+
+    .flight-search-bar {
+      width: 100%;
+      /* Ensure it spans the full width */
+      height: 430px;
+      /* Default height for desktop */
+      min-height: 430px;
+      opacity: 0;
+      /* Hidden initially */
+      transition: opacity 0.3s ease-in;
+    }
+
+    /* Tablet and Mobile Breakpoints */
+    @media (max-width: 1024px) {
       .main-header {
-        height: 350px;
+        height: 650px;
       }
 
       .flight-search-bar {
-        margin-top: -184px;
-      }
-
-      .main-content {
-        margin-top: 10rem;
+        height: 550px;
+        /* Height for tablets */
+        min-height: 550px;
       }
     }
 
-    @media (max-width: 960px) {
+    @media (max-width: 768px) {
       .main-header {
-        height: 560px;
+        height: 750px;
       }
 
       .flight-search-bar {
-        margin-top: -394px;
-      }
-
-      .main-content {
-        margin-top: 22rem;
+        height: 550px;
+        /* Same for mobile */
+        min-height: 550px;
       }
     }
-
-    @media (max-width: 640px) {
-      .flight-search-bar {
-        margin-top: -391px;
-      }
-
-      .main-header {
-        height: 580px;
-      }
-    } */
   </style>
 </head>
 
@@ -100,10 +125,8 @@
           </div>
         </div>
 
-        <!-- <div id="flight-search-bar-iframe" class="relative hidden"> -->
-        <iframe class="relative flight-search-bar" src="https://abm-flights.devdksa.com/searchbar" width="100%"
-          frameborder="0" allowfullscreen></iframe>
-        <!-- </div> -->
+
+        <iframe class="relative flight-search-bar" width="100%" frameborder="0" allowfullscreen scrolling="no"></iframe>
 
       </header>
 
@@ -334,46 +357,61 @@
   }
 
   function adjustHeaderAndSearchBar() {
-    // Select the elements
     const mainHeader = document.querySelector('.main-header');
     const flightSearchBar = document.querySelector('.flight-search-bar');
+    const viewportWidth = window.innerWidth;
 
-    flightSearchBar.setAttribute('height', '430px')
+    // Default values
+    let iframeHeight = 430;
+    let headerHeight = 320;
 
-    if (mainHeader && flightSearchBar) {
-      // Get the height of the .flight-search-bar
-      const searchBarHeight = flightSearchBar.offsetHeight;
-
-      // Get the viewport width
-      const viewportWidth = window.innerWidth;
-
-      if (viewportWidth >= 1024) {
-        // Desktop view
-
-        // Adjust .main-header height
-        mainHeader.style.height = `${searchBarHeight - 100}px`;
-
-      } else if (viewportWidth >= 768) {
-        // Tablet view
-
-        // Adjust .main-header height
-        mainHeader.style.height = `${searchBarHeight + 150}px`;
-
-      } else {
-        // Mobile view
-
-        // Adjust .main-header height
-        mainHeader.style.height = `${searchBarHeight + 200}px`;
-      }
-
+    if (viewportWidth <= 1024) {
+      iframeHeight = 550;
+      headerHeight = 350;
     }
+    if (viewportWidth <= 768) {
+      iframeHeight = 550;
+      headerHeight = 600;
+    }
+    if (viewportWidth <= 640) {
+      iframeHeight = 550;
+      headerHeight = 650;
+    }
+
+    // Set heights without sliding effect
+    flightSearchBar.style.height = `${iframeHeight}px`;
+    mainHeader.style.height = `${headerHeight}px`;
+
+    // Fade in the header
+    mainHeader.style.visibility = 'visible';
+    mainHeader.style.opacity = 1;
   }
 
-  // Adjust on page load
+  // Call function on load
   window.addEventListener('load', adjustHeaderAndSearchBar);
 
-  // Adjust on window resize for responsiveness
-  window.addEventListener('resize', adjustHeaderAndSearchBar);
+  function loadIframeAfterAdjustment() {
+    const flightSearchBar = document.querySelector('.flight-search-bar');
+    const viewportWidth = window.innerWidth;
+
+    // Set iframe height based on viewport width
+    let iframeHeight = 430;
+
+    if (viewportWidth <= 1024) {
+      iframeHeight = 550;
+    }
+
+    flightSearchBar.style.height = `${iframeHeight}px`;
+    flightSearchBar.style.minHeight = `${iframeHeight}px`;
+
+    // Once height is set, load iframe content
+    flightSearchBar.style.opacity = 1; // Fade in the iframe
+    flightSearchBar.setAttribute('src', 'https://abm-flights.devdksa.com/searchbar');
+  }
+
+  // Wait for the page to load completely before adjusting iframe
+  window.addEventListener('load', loadIframeAfterAdjustment);
+
 
 
 </script>
