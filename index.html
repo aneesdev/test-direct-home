@@ -382,7 +382,7 @@
   }
 
   // Call function on load and resize
-  document.addEventListener('readystatechange', adjustHeaderAndSearchBar);
+  window.addEventListener('load', adjustHeaderAndSearchBar);
   window.addEventListener('resize', adjustHeaderAndSearchBar);
 
   function loadIframeAfterAdjustment() {
@@ -395,7 +395,7 @@
   }
 
   // Wait for the page to load completely before adjusting iframe
-  document.addEventListener('readystatechange', loadIframeAfterAdjustment);
+  window.addEventListener('load', loadIframeAfterAdjustment);
 
 </script>
 
