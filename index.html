@@ -52,22 +52,8 @@
       outline: none;
     }
 
-    /* Base Header and Iframe Styling */
-    .main-header {
-      visibility: hidden;
-      /* Prevent flickering during load */
-      height: 500px;
-      /* Default height for desktop */
-      opacity: 0;
-      /* Hidden by default */
-      transition: opacity 0.3s ease-in;
-      /* Smooth fade-in */
-    }
-
     .flight-search-bar {
       width: 100%;
-      /* Ensure it spans the full width */
-      height: 430px;
       /* Default height for desktop */
       min-height: 430px;
       opacity: 0;
@@ -84,7 +70,7 @@
     <div>
       <!-- Header Section -->
       <header class="relative w-full text-white bg-orange-700 main-header">
-        <div class="pt-10 pb-5 pl-10 pr-10 mb-1 ">
+        <div class="pt-10 pb-5 pl-10 pr-10 mb-1 main-content">
           <div class="absolute inset-0 bg-center bg-cover opacity-50"
             style="background-image: url('https://www.nerdwallet.com/tachyon/2021/04/THY-7378W_PR_img01_PR-0413.jpg?resize=1920%2C1152');">
           </div>
@@ -295,7 +281,7 @@
       if (tag === 'wc-direct-header') {
         loadEventListeners();
       }
-      updateShadowDom(component, "https://home.devdksa.com/style.css");
+      updateShadowDom(component, tag, "https://home.devdksa.com/style.css");
     } catch (error) {
       console.error("Error:", error);
     }
@@ -329,7 +315,7 @@
     });
   }
 
-  function updateShadowDom(component, url) {
+  function updateShadowDom(component, tag, url) {
     // update component styles
     const styleLink = document.createElement("link");
     styleLink.setAttribute("rel", "stylesheet");
@@ -339,39 +325,24 @@
     styleLink.onload = () => {
       component.removeAttribute("hidden");
       document.querySelector(".main-app")?.removeAttribute("hidden");
+
+      if (tag === 'wc-direct-footer') {
+        adjustHeaderAndSearchBar();
+      }
     };
   }
 
   function adjustHeaderAndSearchBar() {
     const mainHeader = document.querySelector('.main-header');
+    const mainContent = document.querySelector('.main-content');
     const flightSearchBar = document.querySelector('.flight-search-bar');
-
-    if (!mainHeader || !flightSearchBar) {
-      console.error("Main header or flight search bar not found.");
-      return;
-    }
 
     const viewportWidth = window.innerWidth;
 
-    // Calculate heights dynamically
-    let totalContentHeight = 0;
-
-    Array.from(mainHeader.children).forEach((child) => {
-      if (child !== flightSearchBar) {
-
-        const childStyle = window.getComputedStyle(child);
-
-        // Combine multiple methods to ensure consistency
-        const offsetHeight = child.offsetHeight; // Includes padding, excludes margins
-        const marginTop = parseFloat(childStyle.marginTop) || 0;
-        const marginBottom = parseFloat(childStyle.marginBottom) || 0;
-
-        // Add offsetHeight and margins for total height
-        totalContentHeight += offsetHeight + marginTop + marginBottom;
-      }
-    });
+    let totalContentHeight = mainContent.offsetHeight;
 
     let iframeHeight = flightSearchBar.offsetHeight || flightSearchBar.scrollHeight || 0;
+
     let mainHeaderHeight = totalContentHeight + 155;
 
     if (viewportWidth <= 768) {
@@ -389,54 +360,15 @@
     mainHeader.style.height = `${mainHeaderHeight}px`;
 
     // Fade in the header
-    mainHeader.style.visibility = 'visible';
-    mainHeader.style.opacity = 1;
-  }
-
-  function loadIframeAfterAdjustment() {
-    const flightSearchBar = document.querySelector('.flight-search-bar');
-    if (!flightSearchBar) {
-      console.error("Flight search bar not found.");
-      return;
-    }
+    // mainHeader.style.visibility = 'visible';
+    // mainHeader.style.opacity = 1;
 
     flightSearchBar.style.opacity = 1;
     flightSearchBar.setAttribute('src', 'https://staging-flights.devdksa.com/searchbar/');
+
   }
 
-  // Ensure adjustments after everything is loaded
-  function onWindowLoad() {
-    adjustHeaderAndSearchBar();
-    loadIframeAfterAdjustment();
-  }
-
-  // Safari-specific fallback to ensure rendering correctness
-  function safariFallback() {
-    if (navigator.userAgent.includes('Safari') && !navigator.userAgent.includes('Chrome')) {
-      setTimeout(() => {
-        console.log("Safari-specific fallback executed.");
-        adjustHeaderAndSearchBar();
-      }, 500);
-    }
-  }
-
-  // Ensure DOM readiness
-  document.addEventListener('DOMContentLoaded', () => {
-    console.log("DOM fully loaded and parsed.");
-    onWindowLoad();
-    safariFallback();
-  });
-
-  // Add window load to ensure late assets are covered
-  window.addEventListener('load', () => {
-    console.log("Window fully loaded.");
-    onWindowLoad();
-    safariFallback();
-  });
-
-  // Handle window resize
-  window.addEventListener('resize', adjustHeaderAndSearchBar);
-
+  window.addEventListener('resize', adjustHeaderAndSearchBar)
 
 </script>
 
