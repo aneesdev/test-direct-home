@@ -60,12 +60,11 @@
       /* Default height for desktop */
       opacity: 0;
       /* Hidden by default */
-      transition: opacity 0.1s ease-in;
+      transition: opacity 0.3s ease-in;
       /* Smooth fade-in */
     }
 
     .flight-search-bar {
-      visibility: hidden;
       width: 100%;
       /* Ensure it spans the full width */
       height: 430px;
@@ -73,7 +72,7 @@
       min-height: 430px;
       opacity: 0;
       /* Hidden initially */
-      transition: opacity 0.1s ease-in;
+      transition: opacity 0.3s ease-in;
     }
   </style>
 </head>
@@ -390,7 +389,7 @@
     const flightSearchBar = document.querySelector('.flight-search-bar');
 
     // Once height is set, load iframe content
-    flightSearchBar.style.visibility = 'visible';
+    // flightSearchBar.style.visibility = 'visible';
     flightSearchBar.style.opacity = 1; // Fade in the iframe
     flightSearchBar.setAttribute('src', 'https://staging-flights.devdksa.com/searchbar/');
   }
