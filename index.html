@@ -99,6 +99,21 @@
         min-height: 550px;
       }
     }
+
+    .main-header,
+    .main-header * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      /* Ensures padding doesn't affect height */
+    }
+
+    .flight-search-bar {
+      margin: 0;
+      padding: 0;
+      display: block;
+      /* Ensure iframe doesn't cause inline gaps */
+    }
   </style>
 </head>
 
@@ -119,9 +134,20 @@
               <img src="https://1000logos.net/wp-content/uploads/2020/04/Turkish_Airlines_logo.png"
                 alt="Turkish Airlines Logo" class="h-12 mx-4 bg-white rounded pa-1">
             </div>
-            <p class="text-lg">تعد الخطوط الجوية التركية واحدة من أكبر شركات الطيران انتشارا على مستوى العالم.. أحجز
+            <!-- <p class="text-lg">تعد الخطوط الجوية التركية واحدة من أكبر شركات الطيران انتشارا على مستوى العالم.. أحجز
               الان
-              عبر دايركت الخطوط التركية بسهولة للحصول على أفضل سعر</p>
+              عبر دايركت الخطوط التركية بسهولة للحصول على أفضل سعر
+            </p> -->
+
+            <p class="text-lg">
+              لوريم إيبسوم(Lorem Ipsum) هو ببساطة نص شكلي (بمعنى أن الغاية هي الشكل وليس المحتوى) ويُستخدم في صناعات
+              المطابع ودور النشر. كان لوريم إيبسوم ولايزال المعيار للنص الشكلي منذ القرن الخامس عشر عندما قامت مطبعة
+              مجهولة برص مجموعة من الأحرف بشكل عشوائي أخذتها من نص، لتكوّن كتيّب بمثابة دليل أو مرجع شكلي لهذه الأحرف.
+              خمسة قرون من الزمن لم تقضي على هذا النص، بل انه حتى صار مستخدماً وبشكله الأصلي في الطباعة والتنضيد
+              الإلكتروني. انتشر بشكل كبير في ستينيّات هذا القرن مع إصدار رقائق "ليتراسيت" (Letraset) البلاستيكية تحوي
+              مقاطع من هذا النص، وعاد لينتشر مرة أخرى مؤخراَ مع ظهور برامج النشر الإلكتروني مثل "ألدوس بايج مايكر"
+              (Aldus PageMaker) والتي حوت أيضاً على نسخ من نص لوريم إيبسوم.
+            </p>
           </div>
         </div>
 
@@ -361,58 +387,54 @@
     const flightSearchBar = document.querySelector('.flight-search-bar');
     const viewportWidth = window.innerWidth;
 
-    // Default values
-    let iframeHeight = 430;
-    let headerHeight = 320;
+    // Default iframe height
+    let iframeHeight = flightSearchBar.scrollHeight;
 
-    if (viewportWidth <= 1024) {
-      iframeHeight = 550;
-      headerHeight = 350;
-    }
-    if (viewportWidth <= 768) {
-      iframeHeight = 550;
-      headerHeight = 600;
-    }
-    if (viewportWidth <= 640) {
-      iframeHeight = 550;
-      headerHeight = 650;
-    }
+    // Reset styles to prevent inherited spacing issues
+    mainHeader.style.margin = '0';
+    mainHeader.style.padding = '0';
+    flightSearchBar.style.margin = '0';
+    flightSearchBar.style.padding = '0';
 
-    // Set heights without sliding effect
-    flightSearchBar.style.height = `${iframeHeight}px`;
-    mainHeader.style.height = `${headerHeight}px`;
+    // Calculate total height excluding iframe
+    let totalContentHeight = 0;
+    Array.from(mainHeader.children).forEach((child) => {
+      if (child !== flightSearchBar) {
+        const childStyle = window.getComputedStyle(child);
+        const height = child.offsetHeight; // element height
+        const marginTop = parseFloat(childStyle.marginTop) || 0;
+        const marginBottom = parseFloat(childStyle.marginBottom) || 0;
+        totalContentHeight += height + marginTop + marginBottom;
+      }
+    });
+
+    let mainHeaderHeight = totalContentHeight + 155;
+
+    if (viewportWidth <= 768) mainHeaderHeight = totalContentHeight + 387.6;
+
+    console.log(totalContentHeight, iframeHeight, mainHeaderHeight);
+
+    mainHeader.style.height = `${mainHeaderHeight}px`;
 
     // Fade in the header
     mainHeader.style.visibility = 'visible';
     mainHeader.style.opacity = 1;
   }
 
-  // Call function on load
+  // Call function on load and resize
   window.addEventListener('load', adjustHeaderAndSearchBar);
+  window.addEventListener('resize', adjustHeaderAndSearchBar);
 
   function loadIframeAfterAdjustment() {
     const flightSearchBar = document.querySelector('.flight-search-bar');
-    const viewportWidth = window.innerWidth;
-
-    // Set iframe height based on viewport width
-    let iframeHeight = 430;
-
-    if (viewportWidth <= 1024) {
-      iframeHeight = 550;
-    }
-
-    flightSearchBar.style.height = `${iframeHeight}px`;
-    flightSearchBar.style.minHeight = `${iframeHeight}px`;
 
     // Once height is set, load iframe content
     flightSearchBar.style.opacity = 1; // Fade in the iframe
-    flightSearchBar.setAttribute('src', 'https://abm-flights.devdksa.com/searchbar');
+    flightSearchBar.setAttribute('src', 'https://staging-flights.devdksa.com/searchbar/');
   }
 
   // Wait for the page to load completely before adjusting iframe
   window.addEventListener('load', loadIframeAfterAdjustment);
-
-
 
 </script>
 
