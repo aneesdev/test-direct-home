@@ -60,11 +60,12 @@
       /* Default height for desktop */
       opacity: 0;
       /* Hidden by default */
-      transition: opacity 0.3s ease-in;
+      transition: opacity 0.1s ease-in;
       /* Smooth fade-in */
     }
 
     .flight-search-bar {
+      visibility: hidden;
       width: 100%;
       /* Ensure it spans the full width */
       height: 430px;
@@ -72,47 +73,7 @@
       min-height: 430px;
       opacity: 0;
       /* Hidden initially */
-      transition: opacity 0.3s ease-in;
-    }
-
-    /* Tablet and Mobile Breakpoints */
-    @media (max-width: 1024px) {
-      .main-header {
-        height: 650px;
-      }
-
-      .flight-search-bar {
-        height: 550px;
-        /* Height for tablets */
-        min-height: 550px;
-      }
-    }
-
-    @media (max-width: 768px) {
-      .main-header {
-        height: 750px;
-      }
-
-      .flight-search-bar {
-        height: 550px;
-        /* Same for mobile */
-        min-height: 550px;
-      }
-    }
-
-    .main-header,
-    .main-header * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      /* Ensures padding doesn't affect height */
-    }
-
-    .flight-search-bar {
-      margin: 0;
-      padding: 0;
-      display: block;
-      /* Ensure iframe doesn't cause inline gaps */
+      transition: opacity 0.1s ease-in;
     }
   </style>
 </head>
@@ -419,22 +380,16 @@
     // Fade in the header
     mainHeader.style.visibility = 'visible';
     mainHeader.style.opacity = 1;
-  }
-
-  // Call function on load and resize
-  window.addEventListener('load', adjustHeaderAndSearchBar);
-  window.addEventListener('resize', adjustHeaderAndSearchBar);
-
-  function loadIframeAfterAdjustment() {
-    const flightSearchBar = document.querySelector('.flight-search-bar');
 
     // Once height is set, load iframe content
+    flightSearchBar.style.visibility = 'visible';
     flightSearchBar.style.opacity = 1; // Fade in the iframe
     flightSearchBar.setAttribute('src', 'https://staging-flights.devdksa.com/searchbar/');
   }
 
-  // Wait for the page to load completely before adjusting iframe
-  window.addEventListener('load', loadIframeAfterAdjustment);
+  // Call function on load and resize
+  document.addEventListener('readystatechange', adjustHeaderAndSearchBar);
+  window.addEventListener('resize', adjustHeaderAndSearchBar);
 
 </script>
 
