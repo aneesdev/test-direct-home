@@ -345,35 +345,44 @@
   function adjustHeaderAndSearchBar() {
     const mainHeader = document.querySelector('.main-header');
     const flightSearchBar = document.querySelector('.flight-search-bar');
+
+    if (!mainHeader || !flightSearchBar) {
+      console.error("Main header or flight search bar not found.");
+      return;
+    }
+
     const viewportWidth = window.innerWidth;
 
-    // Default iframe height
-    let iframeHeight = flightSearchBar.scrollHeight;
+    // Force layout recalculation
+    document.body.offsetHeight;
 
-    // Reset styles to prevent inherited spacing issues
-    mainHeader.style.margin = '0';
-    mainHeader.style.padding = '0';
-    flightSearchBar.style.margin = '0';
-    flightSearchBar.style.padding = '0';
-
-    // Calculate total height excluding iframe
+    // Calculate heights dynamically
     let totalContentHeight = 0;
     Array.from(mainHeader.children).forEach((child) => {
       if (child !== flightSearchBar) {
         const childStyle = window.getComputedStyle(child);
-        const height = child.offsetHeight; // element height
+        const height = child.getBoundingClientRect().height; // More reliable than offsetHeight
         const marginTop = parseFloat(childStyle.marginTop) || 0;
         const marginBottom = parseFloat(childStyle.marginBottom) || 0;
         totalContentHeight += height + marginTop + marginBottom;
       }
     });
 
+    let iframeHeight = flightSearchBar.getBoundingClientRect().height || 0;
     let mainHeaderHeight = totalContentHeight + 155;
 
-    if (viewportWidth <= 768) mainHeaderHeight = totalContentHeight + 387.6;
+    if (viewportWidth <= 768) {
+      mainHeaderHeight = totalContentHeight + 387.6;
+    }
 
-    console.log(totalContentHeight, iframeHeight, mainHeaderHeight);
+    console.log("Computed Heights:", {
+      totalContentHeight,
+      iframeHeight,
+      mainHeaderHeight,
+      viewportWidth,
+    });
 
+    // Apply height to the main header
     mainHeader.style.height = `${mainHeaderHeight}px`;
 
     // Fade in the header
@@ -398,26 +407,29 @@
     loadIframeAfterAdjustment();
   }
 
-  // Use a fallback to re-check heights after load
-  function fallbackRecheck() {
-    setTimeout(adjustHeaderAndSearchBar, 100);
-  }
-
-  // Ensure DOM readiness
+  // Ensure DOM readiness and late resources are covered
   document.addEventListener('DOMContentLoaded', () => {
     console.log("DOM fully loaded and parsed.");
     onWindowLoad();
+    fallbackRecheck();
   });
 
-  // Add window load to ensure late assets are covered
   window.addEventListener('load', () => {
     console.log("Window fully loaded.");
     onWindowLoad();
     fallbackRecheck();
   });
 
+  // Fallback for Safari rendering quirks
+  function fallbackRecheck() {
+    setTimeout(() => {
+      adjustHeaderAndSearchBar();
+    }, 100); // Allow layout stabilization
+  }
+
   // Handle window resize
   window.addEventListener('resize', adjustHeaderAndSearchBar);
+
 
 
 </script>
