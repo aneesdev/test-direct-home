@@ -353,22 +353,25 @@
 
     const viewportWidth = window.innerWidth;
 
-    // Force layout recalculation
-    document.body.offsetHeight;
-
     // Calculate heights dynamically
     let totalContentHeight = 0;
+
     Array.from(mainHeader.children).forEach((child) => {
       if (child !== flightSearchBar) {
+
         const childStyle = window.getComputedStyle(child);
-        const height = child.getBoundingClientRect().height; // More reliable than offsetHeight
+
+        // Combine multiple methods to ensure consistency
+        const offsetHeight = child.offsetHeight; // Includes padding, excludes margins
         const marginTop = parseFloat(childStyle.marginTop) || 0;
         const marginBottom = parseFloat(childStyle.marginBottom) || 0;
-        totalContentHeight += height + marginTop + marginBottom;
+
+        // Add offsetHeight and margins for total height
+        totalContentHeight += offsetHeight + marginTop + marginBottom;
       }
     });
 
-    let iframeHeight = flightSearchBar.getBoundingClientRect().height || 0;
+    let iframeHeight = flightSearchBar.offsetHeight || flightSearchBar.scrollHeight || 0;
     let mainHeaderHeight = totalContentHeight + 155;
 
     if (viewportWidth <= 768) {
@@ -407,29 +410,32 @@
     loadIframeAfterAdjustment();
   }
 
-  // Ensure DOM readiness and late resources are covered
+  // Safari-specific fallback to ensure rendering correctness
+  function safariFallback() {
+    if (navigator.userAgent.includes('Safari') && !navigator.userAgent.includes('Chrome')) {
+      setTimeout(() => {
+        console.log("Safari-specific fallback executed.");
+        adjustHeaderAndSearchBar();
+      }, 500);
+    }
+  }
+
+  // Ensure DOM readiness
   document.addEventListener('DOMContentLoaded', () => {
     console.log("DOM fully loaded and parsed.");
     onWindowLoad();
-    fallbackRecheck();
+    safariFallback();
   });
 
+  // Add window load to ensure late assets are covered
   window.addEventListener('load', () => {
     console.log("Window fully loaded.");
     onWindowLoad();
-    fallbackRecheck();
+    safariFallback();
   });
-
-  // Fallback for Safari rendering quirks
-  function fallbackRecheck() {
-    setTimeout(() => {
-      adjustHeaderAndSearchBar();
-    }, 100); // Allow layout stabilization
-  }
 
   // Handle window resize
   window.addEventListener('resize', adjustHeaderAndSearchBar);
-
 
 
 </script>
