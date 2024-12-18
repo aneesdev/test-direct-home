@@ -381,21 +381,44 @@
     mainHeader.style.opacity = 1;
   }
 
-  // Call function on load and resize
-  window.addEventListener('load', adjustHeaderAndSearchBar);
-  window.addEventListener('resize', adjustHeaderAndSearchBar);
-
   function loadIframeAfterAdjustment() {
     const flightSearchBar = document.querySelector('.flight-search-bar');
+    if (!flightSearchBar) {
+      console.error("Flight search bar not found.");
+      return;
+    }
 
-    // Once height is set, load iframe content
-    // flightSearchBar.style.visibility = 'visible';
-    flightSearchBar.style.opacity = 1; // Fade in the iframe
+    flightSearchBar.style.opacity = 1;
     flightSearchBar.setAttribute('src', 'https://staging-flights.devdksa.com/searchbar/');
   }
 
-  // Wait for the page to load completely before adjusting iframe
-  window.addEventListener('load', loadIframeAfterAdjustment);
+  // Ensure adjustments after everything is loaded
+  function onWindowLoad() {
+    adjustHeaderAndSearchBar();
+    loadIframeAfterAdjustment();
+  }
+
+  // Use a fallback to re-check heights after load
+  function fallbackRecheck() {
+    setTimeout(adjustHeaderAndSearchBar, 100);
+  }
+
+  // Ensure DOM readiness
+  document.addEventListener('DOMContentLoaded', () => {
+    console.log("DOM fully loaded and parsed.");
+    onWindowLoad();
+  });
+
+  // Add window load to ensure late assets are covered
+  window.addEventListener('load', () => {
+    console.log("Window fully loaded.");
+    onWindowLoad();
+    fallbackRecheck();
+  });
+
+  // Handle window resize
+  window.addEventListener('resize', adjustHeaderAndSearchBar);
+
 
 </script>
 
